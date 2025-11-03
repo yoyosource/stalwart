@@ -125,7 +125,7 @@ main() {
     say "🚀 Starting service..."
     if [ "${_os}" = "linux" ]; then
         local _issystemdlinux=$(which systemctl)
-        if [ -ne "${_issystemdlinux}" ]; then
+        if [ -n "$_issystemdlinux" ]; then
             create_service_linux_systemd "$_dir"
         else
             create_service_linux_initd "$_dir"
@@ -174,7 +174,7 @@ EOF
 
 create_service_linux_initd() {
     local _dir="$1"
-    cat <<EOF | sed "s|__PATH__|$_dir|g" > /etc/init.d/stalwart
+    cat <<"EOF" | sed "s|__PATH__|$_dir|g" > /etc/init.d/stalwart
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          stalwart
